@@ -1,12 +1,15 @@
-// wu cong
-// let url = 'http://1a699l6063.imwork.net/WeChatService/'
-// xiao hang
-let url = 'http://192.168.0.201:8890/WeChatService/'
 // online app 云端服务
-// let url = 'http://app.quandikeji.com/WeChatService/'
+let url = 'http://localhost:3000/'
 
 if (process.env.NODE_ENV !== 'development') {
-  url = 'http://app.quandikeji.com/WeChatService/'
+  url = 'http://wechatme.leanapp.cn/'
+}
+
+export const vedios = {
+  index: url + 'vedios',
+  update: function (id) {
+    return url + 'vedios/' + id
+  }
 }
 
 export const pic = {
@@ -51,7 +54,7 @@ export const user = {
   sendsms: url + 'GetRanCode',
   bindphone: url + 'Binding',
   getuserinfo: url + 'UserInfo',
-  getwebopenid: url + 'UserOpenId'
+  getwebopenid: url + 'wxauth/code'
 }
 
 export const wx = {

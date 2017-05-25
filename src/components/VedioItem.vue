@@ -1,27 +1,27 @@
 <template>
   <div>
-    <div class="senditem">
-      <div class="senditem-box">
-        <span class="senditem-box__office">
-         <span class="senditem-box__office--info">
-          视频标题: {{item.office | officeinfo}}
+    <div class="vedioitem">
+      <div class="vedioitem-box">
+        <span class="vedioitem-box__office">
+         <span class="vedioitem-box__office--info">
+          视频标题: {{item.title}}
          </span>
         </span>
       </div>
-      <div class="senditem-box flex">
-        <div class="senditem-box__icon">
+      <div class="vedioitem-box flex">
+        <div class="vedioitem-box__icon">
           看
         </div>
-        <div class="senditem-box__address">
+        <div class="vedioitem-box__address">
           <p>视频链接</p>
-          <p class="senditem-box__address--detail">{{item.href}}</p>
+          <p class="vedioitem-box__address--detail">{{item.href}}</p>
         </div>
       </div>
-      <div class="senditem-box flex" style="justify-content: space-between;">
-        <p class="senditem-box__time">{{item.createTime}}</p>
+      <div class="vedioitem-box flex" style="justify-content: space-between;">
+        <p class="vedioitem-box__time">{{item.createdAt | formattime}}</p>
         <div>
-          <button type="" class="cancle-btn" @click="cancle(item)">删除视频</button>
-          <button type="" class="gosend-btn" @click="goPath(item, 'watch')">看视屏</button>
+          <button type="" class="cancle-btn" @click="cancle({id: item.objectId})">删除视频</button>
+          <button type="" class="gosend-btn" @click="goPath(item.href, 'watch')">看视频</button>
         </div>
       </div>
     </div>
@@ -32,7 +32,7 @@
 import { mapActions } from 'vuex'
 
 export default {
-  name: 'senditem',
+  name: 'vedioitem',
   props: {
     item: {
       type: Object,
@@ -50,12 +50,10 @@ export default {
     }
   },
   created () {
-    console.log('item', this.item)
   },
   methods: {
     ...mapActions([
-      'setSend',
-      'cancleSend'
+      'delVedio'
     ]),
     showToast (data) {
       this.$vux.toast.show({
@@ -64,36 +62,21 @@ export default {
         width: data.width || '20rem'
       })
     },
-    goPath (item, type) {
-      console.log('irwem', item)
-      const id = item.id
-      const order = item.order
-      this.$router.push({path: '/send/qr', query: {id, order}})
+    async cancle ({id}) {
+      const res = await this.delVedio({id})
+      console.log('asd', res)
     },
-    showOffice ({province = '', city = '', district = '', descript = ''}) {
-      const content = province + city + district + descript
-      this.showToast({
-        text: content,
-        type: 'text',
-        width: '25rem'
-      })
-    },
-    async cancle (item) {
-      const _this = this // 需要注意 onCancel 和 onConfirm 的 this 指向
-      this.$vux.confirm.show({
-        title: '确定取消这一订单吗?',
-        onCancel () {
-        },
-        async onConfirm () {
-          const res = await _this.cancleSend({
-            id: item.id,
-            type: 5})
-          _this.showToast(res)
-        }
-      })
-    },
-    watchOffice (userId) {
-      this.$router.push({path: '/office/location', query: {userId}})
+    goPath (href) {
+      const reg = /htt/g
+      if (!reg.test(href)) {
+        this.showToast({
+          text: '视频链接出错',
+          type: 'warn',
+          width: '18rem'
+        })
+        return
+      }
+      window.location.href = href
     }
   }
 }
@@ -133,12 +116,13 @@ export default {
   background: @dark-yellow;
 }
 
-.senditem {
+.vedioitem {
+  margin-bottom: 10px;
   &-box {
     .border-bottom-grey;
     background: white;
     text-align: justify;
-    padding: .7rem 0;
+    padding: .7rem 1rem;
     &:last-child {
       border-bottom-width: 0;
     }

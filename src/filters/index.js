@@ -147,3 +147,19 @@ export const officeinfo = function (office) {
   return office.district + ' ' + office.descript
   // return office.descript
 }
+
+export const formattime = function (date) {
+  if (!date) {
+    return ''
+  }
+  date = new Date(date)
+  const year = date.getFullYear()
+  let month = date.getMonth() + 1
+  month = month > 10 ? month : '0' + month
+  let day = date.getDate()
+  day = day >= 10 ? day : '0' + day
+  let hours = date.getHours()
+  let minutes = date.getMinutes()
+  let seconds = date.getSeconds()
+  return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds
+}

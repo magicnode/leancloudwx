@@ -7,64 +7,60 @@
          <span class="title-add">添加</span>
         </div>
         <div>
-          <x-input title="视频标题" v-model="title" placeholder="请输入视频标题" required></x-input>
-          <x-input title="视频链接" v-model="link"  max="500" placeholder="请输入视频链接" required></x-input>
-          <x-input title="视频密码" v-model="pwd"  max="80" placeholder="请输入视频密码 (若没有请忽略)" required></x-input>
+          <x-input title="视频标题" v-model="title" placeholder="请输入视频标题" required @on-change="saveInput('title')"></x-input>
+          <x-input title="视频链接" v-model="href"  max="500" placeholder="请输入视频链接" required></x-input>
+          <x-input title="视频密码" v-model="pwd"  max="80" placeholder="请输入视频密码 (若没有请忽略)"></x-input>
         </div>
        </group>
        <div class="youku">
           <a href="http://www.youku.com/">前往优酷查找链接 >></a>
        </div>
        <div class="addaddress-container-add">
-         <p @click.stop="saveAddress">保存</p>
+         <p @click.stop="saveVedio">保存</p>
        </div>
     </div>
   </div>
 </template>
 <script>
-import { XInput, XSwitch, XAddress, ChinaAddressV3Data, Radio, Value2nameFilter as value2name } from 'vux'
-import { mapActions } from 'vuex'
+import { XInput } from 'vux'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'vedioadd',
   components: {
-    XInput,
-    XSwitch,
-    XAddress,
-    Radio
+    XInput
+  },
+  computed: {
+    ...mapGetters({
+      openid: 'getOpenId'
+    })
   },
   created () {
+    const localStorage = window.localStorage
+    if (process.env.NODE_ENV === 'development') {
+      localStorage.setItem('hq_openid', 'asdasd')
+    }
+    if (!this.openid) {
+      return this.$router.push({path: '/init', query: {page: 1}})
+    }
+    this.title = localStorage.getItem('hq_vedio_add_title')
   },
   mounted () {
-    window.document.title = '添加地址'
+    window.document.title = '添加视频'
   },
   data () {
     return {
-      addressData: ChinaAddressV3Data,
-      name: '',
-      mobile: '',
-      location: [],
-      address: '',
-      value: false,
       title: '',
-      link: '',
+      href: '',
       pwd: ''
     }
   },
   methods: {
     ...mapActions([
-      'addAddress'
+      'addVedio'
     ]),
-    checkMobile (num) {
-      const reg = /^1[1|3|4|5|7|8|9][0-9]\d{4,8}$/
-      return reg.test(num)
-    },
-    async saveAddress () {
-      const rel = value2name(this.location, ChinaAddressV3Data).split(' ')
-      const checked = this.value ? 1 : 2
-      let {type} = this.$route.query
-      type = type === 'pickup' ? 2 : 1
-      if (!this.name || !this.mobile || !this.address || !this.location) {
+    async saveVedio () {
+      if (!this.title || !this.href) {
         this.$vux.toast.show({
           text: '请将信息填写完整',
           type: 'warn',
@@ -72,16 +68,22 @@ export default {
         })
         return
       }
-      if (!this.checkMobile(this.mobile)) {
-        this.$vux.toast.show({
-          text: '手机号格式不对，请重新填写',
-          type: 'warn',
-          width: '18rem'
-        })
-        return
+      const create = {
+        title: this.title,
+        href: this.href,
+        pwd: this.pwd
       }
-      await this.addAddress({address: this.address, province: rel[0], city: rel[1], district: rel[2], mobile: this.mobile, name: this.name, checked, addressType: type})
-      this.$router.go(-1)
+      const res = await this.addVedio({create})
+      this.$vux.toast.show(res)
+      if (res.type === 'success') {
+        this.$router.push({path: '/vedio/list'})
+      }
+    },
+    saveInput (type) {
+      const localStorage = window.localStorage
+      if (type === 'title') {
+        localStorage.setItem('hq_vedio_add_title', this.title)
+      }
     }
   }
 }

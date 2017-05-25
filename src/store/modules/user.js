@@ -39,7 +39,7 @@ export const getters = {
     }
   },
   getOpenId: state => {
-    const openid = localStorage.getItem('mj_openid') || ''
+    const openid = localStorage.getItem('hq_openid') || ''
     return openid
   },
   getSmsCode: state => state.smscode,
@@ -95,7 +95,6 @@ export const actions = {
   },
   async setOpenid ({ commit }, {appid, secret, code}) {
     try {
-      localStorage.setItem('mj_init', 'done')
       const url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' + appid + '&secret=' + secret + '&code=' + code + '&grant_type=authorization_code'
       const res = await instance({
         method: 'post',
@@ -107,16 +106,15 @@ export const actions = {
       console.log('res', res)
       if (res.status === 200) {
         let data = res.data
-        data = JSON.parse(data)
-        if (data.errcode) {
+        let openid = data.openid
+        if (!openid) {
           return {
             text: data.errmsg,
             type: 'warn'
           }
         }
-        let openid = data.openid
-        localStorage.removeItem('mj_openid')
-        localStorage.setItem('mj_openid', openid)
+        localStorage.removeItem('hq_openid')
+        localStorage.setItem('hq_openid', openid)
         commit(types.SET_OPENID, {openid})
         return {
           text: '获取用户openid成功',
