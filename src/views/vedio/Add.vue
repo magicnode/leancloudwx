@@ -2,14 +2,19 @@
   <div class="addaddress">
     <div class="addaddress-container">
       <group>
-         <x-input title="姓名" v-model="name" max="20" placeholder="请填写您的真实姓名" required></x-input>
-         <x-input title="电话" v-model="mobile" placeholder="请输入手机号" required></x-input>
-         <x-address class="quyu" title="地区" v-model="location" :list="addressData" placeholder="请选择省市区"></x-address>
-         <x-input title="地址" v-model="address"  max="80" placeholder="请详细到门牌号 (限80字)" required></x-input>
+        <div class="title flex">
+         <p>视频作品/<span class="title-info">最多上传3个作品</span></p>
+         <span class="title-add">添加</span>
+        </div>
+        <div>
+          <x-input title="视频标题" v-model="title" placeholder="请输入视频标题" required></x-input>
+          <x-input title="视频链接" v-model="link"  max="500" placeholder="请输入视频链接" required></x-input>
+          <x-input title="视频密码" v-model="pwd"  max="80" placeholder="请输入视频密码 (若没有请忽略)" required></x-input>
+        </div>
        </group>
-       <group>
-         <x-switch title="设为默认地址" class="mj-switch" v-model="value"></x-switch>
-       </group>
+       <div class="youku">
+          <a href="http://www.youku.com/">前往优酷查找链接 >></a>
+       </div>
        <div class="addaddress-container-add">
          <p @click.stop="saveAddress">保存</p>
        </div>
@@ -21,7 +26,7 @@ import { XInput, XSwitch, XAddress, ChinaAddressV3Data, Radio, Value2nameFilter 
 import { mapActions } from 'vuex'
 
 export default {
-  name: 'addaddress',
+  name: 'vedioadd',
   components: {
     XInput,
     XSwitch,
@@ -40,7 +45,10 @@ export default {
       mobile: '',
       location: [],
       address: '',
-      value: false
+      value: false,
+      title: '',
+      link: '',
+      pwd: ''
     }
   },
   methods: {
@@ -80,79 +88,64 @@ export default {
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
-@import '../assets/styles/colors.less';
-@import '../assets/styles/helpers.less';
+@import '../../assets/styles/colors.less';
+@import '../../assets/styles/helpers.less';
+.youku {
+  padding: 1rem;
+  a {
+    font-size: 1.3rem;
+    padding: .3rem;
+    border: none;
+    background: @dark-yellow;
+    color: white;
+  }
+}
 .addaddress {
   min-height: 100vh;
   background-color: @bg-grey;
   &-container {
-    .weui-cell__bd.weui-cell__primary {
-      input {
-        text-align: right;
+    .weui-cell__hd {
+      .weui-label {
+        font-size: 1.5rem;
+        text-align: left;
       }
     }
-    .quyu {
-      font-size: 1.5rem;
-      .weui-label {
+    .weui-cell__bd.weui-cell__primary {
+      input {
         text-align: left;
-        padding-left: .6rem;
+        font-size: 1.5rem;
       }
-      .vux-popup-picker-select {
-        color: #666;
-        span {
-          font-size: 1.5rem;
-        }
+    }
+    .title {
+      padding: 10px 15px;
+      justify-content: space-between;
+      font-size: 1.5rem;
+      border-bottom: 1px solid #D9D9D9;
+      &-info {
+        color: @mjpink;
+        font-size: 1.2rem;
+      }
+      &-add {
+        color: #999;
       }
     }
     &-add {
-      margin-top: 10rem;
-      padding: 1rem 1rem;
+      background: white;
+      bottom: 0;
+      position: fixed;
+      width: 100%;
+      text-align: center;
       p {
+        float: right;
+        text-align: center;
         font-size: 1.8rem;
-        padding: 1rem 0;
-        width: 100%;
+        padding: .5rem 0;
+        width: 20%;
         color: white;
-        background: @dark-yellow;
-        border-radius: 6px;
-      }
-    }
-    .g-radio {
-      padding: 1rem;
-      padding-right: 0;
-      &:before {
-        content: " ";
-        margin-bottom: .7rem;
-        display: block;
-        width: 100%;
-        height: 1px;
-        border-top: 1px solid #D9D9D9;
-        color: #D9D9D9;
-        -webkit-transform-origin: 0 0;
-        transform-origin: 0 0;
-        -webkit-transform: scaleY(0.5);
-        transform: scaleY(0.5);
-      }
-    }
-  }
-}
-
-.mj-switch {
-  padding: 10px 15px!important;
-  .weui-cell__ft {
-    .weui-switch {
-      width: 40px!important;
-      height: 20px!important;
-      &:checked {
-        border-color: @dark-yellow;
-        background-color: @dark-yellow;
-      }
-      &:before {
-        width: 40px;
-        height: 20px;
-      }
-      &:after {
-        width: 20px;
-        height: 18px;
+        background: @lblue;
+        &:after {
+          clear: both;
+        }
       }
     }
   }

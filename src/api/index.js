@@ -10,7 +10,8 @@ if (process.env.NODE_ENV !== 'development') {
 }
 
 export const pic = {
-  qr: url + 'pic'
+  qr: url + 'pic',
+  pickupqr: url + 'signpic'
 }
 
 export const address = {

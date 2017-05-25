@@ -13,6 +13,7 @@ import * as filters from './filters'
 import Header from './components/Header.vue'
 import PickupItem from './components/PickupItem.vue'
 import SendItem from './components/SendItem.vue'
+import VedioItem from './components/VedioItem.vue'
 import MJSpinner from './components/MJSpinner.vue'
 
 FastClick.attach(document.body)
@@ -34,6 +35,7 @@ Vue.component('mj-header', Header)
 Vue.component('mj-spinner', MJSpinner)
 Vue.component('mj-pickupitem', PickupItem)
 Vue.component('mj-senditem', SendItem)
+Vue.component('mj-vedioitem', VedioItem)
 
 router.beforeEach(function (to, from, next) {
   // let jumpSrc = 'http://112.74.34.241:3000/pics/random?show=1'

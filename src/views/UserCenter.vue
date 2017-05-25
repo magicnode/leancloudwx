@@ -13,9 +13,6 @@
         <span class="arrow-left"></span>
       </div>
     </div>
-    <div class="" style="padding:2rem 0;"> 
-      <button class="btn-sub" @click="loginout">刷新状态</button>
-    </div>
   </div>
 </template>
 <script>
@@ -50,23 +47,14 @@ export default {
     return {
       isShow: false,
       orderfunc: [{
-        src: require('../assets/images/new/min_ico_add.png'),
-        name: '地址管理',
-        path: '/address',
+        src: require('../assets/images/new/sen_ico_lis.png'),
+        name: '上传视频',
+        path: '/vedio/add',
         show: true
       }, {
-        src: require('../assets/images/new/min_ico_pac.png'),
-        name: '我的包裹',
-        path: '/user/package',
-        show: true
-      }, {
-        src: require('../assets/images/new/min_ico_rea.png'),
-        name: '实名认证',
-        show: false
-      }, {
-        src: require('../assets/images/new/min_ico_cus.png'),
-        name: '客服中心',
-        path: '/customer/service',
+        src: require('../assets/images/rec_ico_eva.png'),
+        name: '查看视频',
+        path: '/vedio/list',
         show: true
       }]
     }
@@ -107,7 +95,7 @@ export default {
 }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="less">
+<style lang="less" scoped>
 @import '../assets/styles/colors.less';
 
 .flex {
@@ -148,13 +136,17 @@ export default {
     justify-content: center;
     align-items: center;
     img {
-      width: 6rem;
+      width: 7.5rem;
       border-radius: 50%;
     }
     p {
       color: white;
       font-size: 1.6rem;
-      padding: 1rem 0;
+      padding: 1rem 0 0 0;
+      // position: absolute;
+      // top: 11rem;
+      width: 100%;
+      text-align: center;
     }
   }
 
@@ -187,8 +179,8 @@ export default {
         flex: 3;
         text-align: left;
         img {
-          width: 1.8rem;
-          height: 2rem;
+          width: 2.4rem;
+          height: auto;
           margin-right: 7px;
           vertical-align:middle;
           font-size: 0;

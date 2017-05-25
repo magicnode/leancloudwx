@@ -12,16 +12,15 @@ import MJFooter from '@/components/Footer'
 export default {
   name: 'contains',
   created () {
-    // if (process.env.NODE_ENV === 'development') {
-    //   window.localStorage.setItem('mj_code', code)
-    //   window.localStorage.setItem('mj_init', 'done')
-    //   window.localStorage.setItem('mj_headimgurl', '//wx.qlogo.cn/mmopen/zYCT2SFoRZOlR2cj0EFrkNWbEBzsW8jxnPN7RFOEePukrWG3ItP6icX1jKXYliaVibBMUnAprSDPqPttLuApDx8Yz4aCJt22XOP/0')
-    //   window.localStorage.setItem('mj_mobile', '17317272575')
-    //   window.localStorage.setItem('mj_nickname', '呃嗯丶')
-    //   window.localStorage.setItem('mj_openid', 'oCk9ywj1vT0B3ltw2m3dfE6FnHzI')
-    //   window.localStorage.setItem('mj_userId', '8')
-    //   return
-    // }
+    if (process.env.NODE_ENV === 'development') {
+      window.localStorage.setItem('mj_init', 'done')
+      window.localStorage.setItem('mj_headimgurl', '//wx.qlogo.cn/mmopen/zYCT2SFoRZOlR2cj0EFrkNWbEBzsW8jxnPN7RFOEePukrWG3ItP6icX1jKXYliaVibBMUnAprSDPqPttLuApDx8Yz4aCJt22XOP/0')
+      window.localStorage.setItem('mj_mobile', '17317272575')
+      window.localStorage.setItem('mj_nickname', '呃嗯丶')
+      window.localStorage.setItem('mj_openid', 'oCk9ywj1vT0B3ltw2m3dfE6FnHzI')
+      window.localStorage.setItem('mj_userId', '8')
+      return
+    }
     // 获取路径参数
     // function GetQueryString (name) {
     //   const reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')

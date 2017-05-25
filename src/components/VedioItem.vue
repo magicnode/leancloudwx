@@ -1,55 +1,27 @@
 <template>
-  <!-- 未寄件 -->
-  <div v-if="item.type === 1 && item.type !== 5">
+  <div>
     <div class="senditem">
       <div class="senditem-box">
         <span class="senditem-box__office">
          <span class="senditem-box__office--info">
-          寄件站点: {{item.office | officeinfo}}
+          视频标题: {{item.office | officeinfo}}
          </span>
-         <img src="../assets/images/new/pic_ico_map.png" alt="item.office.descript" @click="watchOffice(item.officeId)">
         </span>
       </div>
       <div class="senditem-box flex">
         <div class="senditem-box__icon">
-          收
+          看
         </div>
         <div class="senditem-box__address">
-          <p>{{item.name}}  {{item.receiptAddress.mobile}}</p>
-          <p class="senditem-box__address--detail">{{item.receiptAddress.province + item.receiptAddress.city + item.receiptAddress.district + item.receiptAddress.address}}</p>
+          <p>视频链接</p>
+          <p class="senditem-box__address--detail">{{item.href}}</p>
         </div>
-        <span class="senditem-box__state">{{item.type | sendstatus}}</span>
       </div>
       <div class="senditem-box flex" style="justify-content: space-between;">
         <p class="senditem-box__time">{{item.createTime}}</p>
         <div>
-          <button v-show="item.type !== 5 && !readonly" type="" class="cancle-btn" @click="cancle(item)">取消订单</button>
-          <button v-show="item.type !== 5" type="" class="gosend-btn" @click="goPath(item, 'wait')">去寄件</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- 已寄件 -->
-  <div v-else-if="item.type !== 1 && item.type !== 5">
-    <div class="senditem">
-      <div class="senditem-box">
-        <span class="senditem-box__office"><img :src="item.brandId | brandimg" :alt="item.brandId | brandtype"> {{item.order}}</span>
-      </div>
-      <div class="senditem-box flex">
-        <div class="senditem-box__icon">
-          收
-        </div>
-        <div>
-          <p>{{item.name}}  {{item.receiptAddress.mobile}}</p>
-          <p>{{item.receiptAddress.province + item.receiptAddress.city + item.receiptAddress.district + item.receiptAddress.address}}</p>
-        </div>
-        <span class="senditem-box__state">{{item.type | sendstatus}}</span>
-      </div>
-      <div class="senditem-box flex" style="justify-content: space-between;">
-        <p class="senditem-box__time">{{item.createTime}}</p>
-        <span class="senditem-box__price">{{'￥' + item.price}}</span>
-        <div class="senditem-box__btn">
-          <button type="" class="cancle-btn" @click="goPath(item, 'ready')">查看订单</button>
+          <button type="" class="cancle-btn" @click="cancle(item)">删除视频</button>
+          <button type="" class="gosend-btn" @click="goPath(item, 'watch')">看视屏</button>
         </div>
       </div>
     </div>
@@ -78,7 +50,7 @@ export default {
     }
   },
   created () {
-    // console.log('item', this.item)
+    console.log('item', this.item)
   },
   methods: {
     ...mapActions([

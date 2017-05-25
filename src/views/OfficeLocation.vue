@@ -6,7 +6,7 @@
 </template>
 <script>
 import {address as addressApi} from '@/api'
-import pic from '../assets/images/new/office404(1).jpg'
+import pic from '../assets/images/new/officedefault.png'
 
 const setOfficeMaker = function ({position, info, error}) {
   let mapObj = new window.AMap.Map('iCenter', {
@@ -21,10 +21,11 @@ const setOfficeMaker = function ({position, info, error}) {
       position: position,
       draggable: false
     })
-    const photo = '<img width=300 height=140 src="' + pic + '"><br>'
+    console.log(info)
+    const photo = '<div class="officeimg"><img src="' + pic + '"></div>'
     const infoWindow = new SimpleInfoWindow({
-      infoTitle: '<span>营业厅名称: ' + info.name + '</strong>',
-      infoBody: photo + '<p class="office-info"><p>简介：' + info.descript + '</p><p>具体地址: ' + info.address + '</p></p>' + error,
+      infoTitle: '<span>"妙寄"全网站点: ' + info.name + '</strong>',
+      infoBody: photo + '<div class="office-detail"><p><p>所在区域：' + info.address + '</p><p>详细地址: ' + info.descript + '</p><p>电话号码: <a href="tel:' + info.mobile + '">' + info.mobile + '</a></p></p></div>' + error,
       offset: new window.AMap.Pixel(0, -31)
     })
     function openInfoWin () {
@@ -44,11 +45,11 @@ export default {
   created () {
   },
   async mounted () {
-    window.document.title = '营业厅地图'
+    window.document.title = '"妙寄"全网站点地图'
     const {userId} = this.$route.query
     if (!userId) {
       this.$vux.toast.show({
-        text: '缺少关键数据， 无法查询营业厅地址',
+        text: '缺少关键数据， 无法查询站点地址',
         type: 'warn',
         width: '26rem'
       })
@@ -77,7 +78,8 @@ export default {
         const info = {
           name: this.name,
           address: this.address,
-          descript: this.descript
+          descript: this.descript,
+          mobile: data.mobile
         }
         let error = '</br>'
         if (!this.longitude && !this.latitude) {
@@ -123,4 +125,10 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
 @import '../assets/styles/colors.less';
+.amap-ui-smp-ifwn-container {
+  font-size: 1.4rem;
+}
+.amap-ui-smp-ifwn-def-tr-close {
+  font-size: 2.2rem;
+}
 </style>
